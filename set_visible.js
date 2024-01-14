@@ -38,16 +38,20 @@ function analyzeCards(cardHtmlList) {
         const svgs = cardDoc.querySelectorAll('svg');
         const shapeCount = svgs.length;
 
-        // Assuming all shapes in a card are the same, take the first SVG to determine the shape and color
         let shapeType = '';
         let color = '';
         let fillType = '';
 
         if (svgs.length > 0) {
-            const useElement = svgs[0].querySelector('use');
-            shapeType = useElement.getAttribute('href').replace('#', ''); // Get shape type (oval, squiggle, diamond)
-            color = useElement.getAttribute('stroke'); // Get color from stroke attribute
-            fillType = useElement.getAttribute('mask') ? 'striped' : 'solid'; // Determine fill type
+            const useElements = svgs[0].querySelectorAll('use');
+            shapeType = useElements[0].getAttribute('href').replace('#', ''); // Get shape type (oval, squiggle, diamond)
+
+            // Check if the second 'use' element exists to read the stroke attribute
+            if (useElements.length > 1) {
+                color = useElements[1].getAttribute('stroke'); // Get color from stroke attribute of the second 'use' element
+            }
+            
+            fillType = useElements[0].getAttribute('mask') ? 'striped' : 'solid'; // Determine fill type
         }
 
         return {
@@ -62,6 +66,7 @@ function analyzeCards(cardHtmlList) {
 // Example usage
 const cardDetails = analyzeCards(extractVisibleCards());
 console.log(cardDetails);
+
 
 
 /*
