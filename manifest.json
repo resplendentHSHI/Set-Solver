@@ -1,0 +1,24 @@
+{
+    "manifest_version": 3,
+    "name": "Set Game Finder",
+    "description": "This extension finds sets in the game 'Set'.",
+    "version": "1.0",
+    "permissions": [
+        "activeTab",
+        "scripting"
+    ],
+    "action": {
+        "default_popup": "popup.html",
+        "default_icon": {
+            "16": "icon16.png",
+            "48": "icon48.png",
+            "128": "icon128.png"
+        }
+    },
+    "content_scripts": [
+        {
+            "matches": ["<all_urls>"],
+            "js": ["set_visible.js"]
+        }
+    ]
+}
