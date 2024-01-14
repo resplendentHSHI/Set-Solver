@@ -71,11 +71,11 @@ function analyzeCards(cardHtmlList) {
         };
     });
 }
-
+/*
 // Example usage
 const cardDetails = analyzeCards(extractVisibleCards());
 console.log(cardDetails);    
-
+*/
 function isSet(card1, card2, card3) {
     // Check each property
     const properties = ['shapeCount', 'shapeType', 'fillType', 'color'];
@@ -101,13 +101,20 @@ function findSets(cards) {
     return sets;
 }
 
+
+// Instead of just logging, return the sets
+const cardDetails = analyzeCards(extractVisibleCards());
+const sets = findSets(cardDetails);
+return sets;  // This will be the return value of the script
+
 /*
 // Example usage
 const cardDetails = analyzeCards(extractVisibleCards());
 console.log(cardDetails);
+
+const sets = findSets(cardDetails);
+console.log(sets);
 */
-//const sets = findSets(cardDetails);
-//console.log(sets);
 
 
 

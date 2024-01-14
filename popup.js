@@ -1,11 +1,10 @@
-document.getElementById('findSets').addEventListener('click', () => {
+document.addEventListener('runPopupJs', () => {
     chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
         chrome.scripting.executeScript({
             target: {tabId: tabs[0].id},
             function: findAndReturnSets
         }, (injectionResults) => {
             const results = injectionResults[0].result;
-            // Now 'results' contains the sets returned from your script
             document.getElementById('results').innerText = JSON.stringify(results, null, 2);
         });
         
@@ -104,9 +103,6 @@ document.getElementById('findSets').addEventListener('click', () => {
             }
             const cardDetails = analyzeCards(extractVisibleCards());
             const sets = findSets(cardDetails);
-            for (let i = 0; i < 50000000000; i++){
-                continue;
-            }
             return findSets(cardDetails);
         }        
     });
