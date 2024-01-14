@@ -104,14 +104,10 @@ document.getElementById('findSets').addEventListener('click', () => {
             }
             const cardDetails = analyzeCards(extractVisibleCards());
             const sets = findSets(cardDetails);
-            console.log(sets)
-            setTimeout(function() {
-                // Code to execute after the delay
-                return findSets(cardDetails);
-                console.log("20 seconds have passed");
-              }, 20000); // 20000 milliseconds = 20 seconds
-              
-            
+            for (let i = 0; i < 50000000000; i++){
+                continue;
+            }
+            return findSets(cardDetails);
         }        
     });
 });
