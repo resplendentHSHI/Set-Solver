@@ -51,7 +51,16 @@ function analyzeCards(cardHtmlList) {
                 color = useElements[1].getAttribute('stroke'); // Get color from stroke attribute of the second 'use' element
             }
             
-            fillType = useElements[0].getAttribute('mask') ? 'striped' : 'solid'; // Determine fill type
+            const maskAttribute = useElements[0].getAttribute('mask');
+            const fillAttribute = useElements[0].getAttribute('fill');
+            //fillType = maskAttribute && maskAttribute === "url(#mask-stripe)" ? 'striped' : 'solid'; // Determine fill type
+            if (fillAttribute === 'transparent') {
+                fillType = 'transparent';
+            } else if (maskAttribute && maskAttribute === "url(#mask-stripe)") {
+                fillType = 'striped';
+            } else {
+                fillType = 'solid'
+            }
         }
 
         return {
@@ -65,7 +74,40 @@ function analyzeCards(cardHtmlList) {
 
 // Example usage
 const cardDetails = analyzeCards(extractVisibleCards());
+console.log(cardDetails);    
+
+function isSet(card1, card2, card3) {
+    // Check each property
+    const properties = ['shapeCount', 'shapeType', 'fillType', 'color'];
+    return properties.every(property => {
+        // Check if all are the same or all are different for each property
+        let allSame = (card1[property] === card2[property]) && (card2[property] === card3[property]);
+        let allDifferent = (card1[property] !== card2[property]) && (card2[property] !== card3[property]) && (card1[property] !== card3[property]);
+        return allSame || allDifferent;
+    });
+}
+
+function findSets(cards) {
+    let sets = [];
+    for (let i = 0; i < cards.length; i++) {
+        for (let j = i + 1; j < cards.length; j++) {
+            for (let k = j + 1; k < cards.length; k++) {
+                if (isSet(cards[i], cards[j], cards[k])) {
+                    sets.push([cards[i], cards[j], cards[k]]);
+                }
+            }
+        }
+    }
+    return sets;
+}
+
+/*
+// Example usage
+const cardDetails = analyzeCards(extractVisibleCards());
 console.log(cardDetails);
+*/
+//const sets = findSets(cardDetails);
+//console.log(sets);
 
 
 
